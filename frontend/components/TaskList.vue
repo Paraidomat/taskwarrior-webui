@@ -117,6 +117,14 @@
 			<template v-slot:item.description="{ item }">
 				<span v-html="linkify(item.description)" />
 			</template>
+                        
+                        <template v-slot:item.uuid="{ item }">
+                                {{ item.uuid }}
+                        </template>
+
+                        <template v-slot:item.depends="{ item }">
+                                {{ item.depends }}
+                        </template>
 
 			<template v-if="status === 'waiting'" v-slot:item.wait="{ item }">
 				{{ displayDate(item.wait) }}
@@ -279,8 +287,11 @@ export default defineComponent({
 			recurring: 'mdi-restart'
 		};
 		const headers = computed(() => [
+                        { text: 'ID', value: 'id' },
 			{ text: 'Project', value: 'project' },
 			{ text: 'Description', value: 'description' },
+			{ text: 'UUID', value: 'uuid' },
+                        { text: 'Depends', value: 'depends' },
 			{ text: 'Priority', value: 'priority' },
 			{ text: 'Scheduled', value: 'scheduled' },
 			...(status.value === 'recurring'

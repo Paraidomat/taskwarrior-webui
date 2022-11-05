@@ -25,6 +25,11 @@
 						label="Project"
 					/>
 					<v-combobox
+						v-model="formData.depends"
+                                                :items="depends"
+						label="Depends"
+					/>
+					<v-combobox
 						v-model="formData.tags"
 						:items="tags"
 						hide-selected
@@ -152,6 +157,7 @@ export default defineComponent({
 	},
 	setup(props: Props, context) {
 		const projects = computed(() => context.root.$store.getters.projects);
+                const depends = computed(() => context.root.$store.getters.depends);
 		const tags = computed(() => context.root.$store.getters.tags);
 
 		const showDialog = computed({
@@ -169,6 +175,7 @@ export default defineComponent({
 		const formData = ref({
 			description: '',
 			project: '',
+                        depends: '',
 			scheduled: '',
 			due: '',
 			until: '',
@@ -184,6 +191,7 @@ export default defineComponent({
 			formData.value = {
 				description: '',
 				project: '',
+                                depends: '',
 				scheduled: '',
 				due: '',
 				until: '',
@@ -228,6 +236,7 @@ export default defineComponent({
 					...formData.value,
 					annotations: formData.value.annotations || [],
 					project: formData.value.project || undefined,
+                                        depends: formData.value.depends || undefined,
 					scheduled: formData.value.scheduled || undefined,
 					due: formData.value.due || undefined,
 					until: formData.value.until || undefined,
@@ -237,7 +246,7 @@ export default defineComponent({
 				}]);
 				context.root.$store.commit('setNotification', {
 					color: 'success',
-					text: `Successfully ${props.task ? 'update' : 'create'} the task`
+					text: `Successfully ${props.task ? 'update' : 'create'} the task depending on ${formData.value.depends}`
 				});
 				closeDialog();
 			}
